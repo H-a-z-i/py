@@ -20,12 +20,14 @@ def GetFile(s, buffer,fbuffer):                                                 
         s.send(filename.encode())                     
         found = s.recv(buffer).decode()  ##4
         if found[:5] == 'FOUND':                                                    #Else statement for file verification to be completed, does check and confirm file exists
-            filesize = int(found[5:])                                               # If check fails currently hangs needs to be implemented
-            get = input("File exists, " + str(filesize) + "Bytes, download (Y/N)? -> ")
-            #User asked for download confirmation
+            ##filesize = str(found[5:])                                               # If check fails currently hangs needs to be implemented, compat issue wih C
+            ##get = input("File exists, " + str(filesize) + "Bytes, download (Y/N)? -> ")
+            get = input("File exists: " + str(filename) + " download (Y/N)? -> ")
+        #User asked for download confirmation
             if get == 'Y' or get == 'y':
                 s.send('ok'.encode())   ##5
                 contents = s.recv(fbuffer).decode() ##6
+                print(contents)
                 #totalRecv = len(contents)                                           #Total length and adjustable buffer TBC
                 with open('new__' + filename,'wb') as f:                             #Write content received with new file name to file contents
                     f.write(contents.encode())
